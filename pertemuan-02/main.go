@@ -39,8 +39,15 @@ func TerapkanPajak(total float64, tarifPajak float64) float64 {
 // TODO(Level 4):
 
 func HitungDiskon(total float64) float64 {
-	panic("belum diimplementasikan")
+	if total >= 1000000 {
+		return total * 0.1// 10% discount (returns final price)
+	} else if total >= 500000 {
+		return total * 0.05 // 5% discount (returns final price)
+	} else {
+		return 0 // No discount (returns original price)
+	}
 }
+
 
 // TODO(Level 5):
 
