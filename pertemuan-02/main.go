@@ -19,14 +19,14 @@ return HargaSatuan * JumlahBarang
 
 func HitungTotalPesanan(qty []int, hargaSatuan []float64) float64 {
 
-	// if len(qty) == len(hargaSatuan) {
-	// 	var total float64
-	// 	for i := 0; i < len(qty); i++ {
-	// 		total += HitungSubtotal(qty[i], hargaSatuan[i])
-	// 	}
-	// 	return total
-	// }
-	// return 0
+	if len(qty) == len(hargaSatuan) {
+		var total float64
+		for i := 0; i < len(qty); i++ {
+			total += HitungSubtotal(qty[i], hargaSatuan[i])
+		}
+		return total
+	}
+	return 0
 
 }
 
