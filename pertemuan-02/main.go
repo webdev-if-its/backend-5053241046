@@ -52,7 +52,11 @@ func HitungDiskon(total float64) float64 {
 // TODO(Level 5):
 
 func TotalSetelahDiskon(qty []int, hargaSatuan []float64, tarifPajak float64) float64 {
-	panic("belum diimplementasikan")
+	totalAwal := HitungTotalPesanan(qty, hargaSatuan)
+	totaldiskon := HitungDiskon(totalAwal)
+	totalSetelahDiskon := (totalAwal - totaldiskon)
+	totalSetelahPajak := TerapkanPajak(totalSetelahDiskon, tarifPajak)
+	return totalSetelahPajak
 }
 // TODO(Level 6):
 
