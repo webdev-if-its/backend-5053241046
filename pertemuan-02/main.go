@@ -33,7 +33,7 @@ func HitungTotalPesanan(qty []int, hargaSatuan []float64) float64 {
 // TODO(Level 3):
 
 func TerapkanPajak(total float64, tarifPajak float64) float64 {
-	// return total + (total * tarifPajak)
+	return total + (total * tarifPajak)
 }
 
 // TODO(Level 4):
