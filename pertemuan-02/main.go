@@ -40,14 +40,13 @@ func TerapkanPajak(total float64, tarifPajak float64) float64 {
 
 func HitungDiskon(total float64) float64 {
 	if total >= 1000000 {
-		return total * 0.1// 10% discount (returns final price)
+		return total * 0.1// 10% discount 
 	} else if total >= 500000 {
-		return total * 0.05 // 5% discount (returns final price)
+		return total * 0.05 // 5% discount 
 	} else {
-		return 0 // No discount (returns original price)
+		return 0 // No discount 
 	}
 }
-
 
 // TODO(Level 5):
 
@@ -61,7 +60,20 @@ func TotalSetelahDiskon(qty []int, hargaSatuan []float64, tarifPajak float64) fl
 // TODO(Level 6):
 
 func ValidasiPesanan(qty []int, hargaSatuan []float64) (bool, string) {
-	panic("belum diimplementasikan")
+	if len(qty) != len(hargaSatuan) {
+		return false, "banyaknya item dan harga tidak sama"
+	}
+
+	for i := 0; i < len(qty); i++ {
+		if qty[i] <= 0 {
+			return false, "jumlah barang harus bilangan positif"
+		}
+		if hargaSatuan[i] <= 0 {
+			return false, "harga satuan harus bilangan positif"
+		}
+	}
+
+	return true, ""
 }
 
 // TODO(Level 7):
