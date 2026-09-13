@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // TODO(Level 1): 
 
@@ -80,11 +83,11 @@ func ValidasiPesanan(qty []int, hargaSatuan []float64) (bool, string) {
 
 func TentukanStatus(total float64) string {
 	if total > 1000000 {
-			return "Prioritas"
-		} else if total > 100000 {
-			return "Reguler"
-		}
-		return "Hemat"
+		return "Prioritas"
+	} else if total > 100000 {
+		return "Reguler"
+	}
+	return "Hemat"
 }
 
 // TODO(Level 8):
@@ -114,7 +117,7 @@ func Total(harga ...float64) float64 {
 // TODO(Level 10, bonus): signature ini SUDAH benar (cari tahu sendiri
 // kenapa ada dua nilai balik - lihat SOAL.md) - tinggal implementasikan isinya.
 func HitungOngkosKirim(beratKg float64, jarakKm float64) (float64, error) {
-if beratKg <= 0 || jarakKm < 0 {
+	if beratKg <= 0 || jarakKm < 0 {
 		return 0, errors.New("berat harus > 0 dan jarak harus >= 0")
 	}
 
