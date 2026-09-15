@@ -92,7 +92,15 @@ func AmankanPanggilan(fn func() error) (err error) {
 
 // TODO (LEVEL 9)
 func AmankanHandler(next http.HandlerFunc) http.HandlerFunc {
-	panic("belum diimplementasikan")
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := AmankanPanggilan(func() error {
+			next(w, r)
+			return nil
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	}
 }
 
 // TODO (LEVEL 10 - Part 1)
