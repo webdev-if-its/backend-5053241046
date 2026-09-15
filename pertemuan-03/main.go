@@ -47,7 +47,12 @@ func TambahTugas(toko *TokoTugas, judul string) (Task, error) {
 
 //TODO (LEVEL 2)
 func LihatTugas(toko *TokoTugas, id int) (Task, error) {
-	panic("belum diimplementasikan")
+	for _, tugas := range toko.Daftar {
+		if tugas.ID == id {
+			return tugas, nil
+		}
+	}
+	return Task{}, ErrTugasTidakDitemukan
 }
 
 //TODO (LEVEL 3)
