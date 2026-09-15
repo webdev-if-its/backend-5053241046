@@ -22,8 +22,7 @@ type TokoTugas struct {
 	Log    []string
 }
 
-//TODO (LEVEL 1)
-
+// TODO (LEVEL 1 && 6)
 func TambahTugas(toko *TokoTugas, judul string) (Task, error) {
 	if strings.TrimSpace(judul) == "" {
 		return Task{}, ErrInputKosong
@@ -45,7 +44,7 @@ func TambahTugas(toko *TokoTugas, judul string) (Task, error) {
 	return tugasBaru, nil
 }
 
-//TODO (LEVEL 2)
+// TODO (LEVEL 2 && 4)
 func LihatTugas(toko *TokoTugas, id int) (Task, error) {
 	for _, tugas := range toko.Daftar {
 		if tugas.ID == id {
@@ -55,7 +54,7 @@ func LihatTugas(toko *TokoTugas, id int) (Task, error) {
 	return Task{}, ErrTugasTidakDitemukan
 }
 
-//TODO (LEVEL 3)
+// TODO (LEVEL 3 && 5)
 func HapusTugas(toko *TokoTugas, id int) error {
 	for i, tugas := range toko.Daftar {
 		if tugas.ID == id {
@@ -66,36 +65,36 @@ func HapusTugas(toko *TokoTugas, id int) error {
 	return ErrTugasTidakDitemukan
 }
 
-// HapusTugasTercatat memanggil HapusTugas, lalu memakai defer untuk
-// MENCATAT hasilnya ke toko.Log -- baik saat berhasil maupun saat gagal.
-func HapusTugasTercatat(toko *TokoTugas, id int) error {
-	panic("belum diimplementasikan")
+// TODO (LEVEL 7)
+func HapusTugasTercatat(toko *TokoTugas, id int) (err error) {
+	defer func() {
+		if err == nil {
+			toko.Log = append(toko.Log, fmt.Sprintf("hapus id=%d: berhasil", id))
+		} else {
+			toko.Log = append(toko.Log, fmt.Sprintf("hapus id=%d: gagal (%v)", id, err))
+		}
+	}()
+
+	err = HapusTugas(toko, id) 
+	return err
 }
 
-// AmankanPanggilan menjalankan fn. Kalau fn panic, AmankanPanggilan
-// menangkapnya lewat recover dan mengembalikannya sebagai error biasa,
-// alih-alih membiarkan panic itu merambat dan menghentikan program.
+// TODO (LEVEL 8)
 func AmankanPanggilan(fn func() error) (err error) {
 	panic("belum diimplementasikan")
 }
 
-// AmankanHandler membungkus next: kalau next panic saat memproses satu
-// request, server tetap hidup untuk request-request lain (request yang
-// panic itu dijawab status 500).
+// TODO (LEVEL 9)
 func AmankanHandler(next http.HandlerFunc) http.HandlerFunc {
 	panic("belum diimplementasikan")
 }
 
-// RekapStatus menghitung berapa tugas yang sudah selesai dan berapa yang
-// belum, dikembalikan sebagai map dengan persis dua kunci: "selesai" dan
-// "belum selesai".
+// TODO (LEVEL 10 - Part 1)
 func RekapStatus(toko *TokoTugas) map[string]int {
 	panic("belum diimplementasikan")
 }
 
-// BuatHandlerTugas mengembalikan HandlerFunc yang menuliskan daftar tugas
-// di toko sebagai teks biasa ke w (satu tugas per baris), diikuti satu
-// baris ringkasan dari RekapStatus.
+// TODO (LEVEL 10 - Part 2)
 func BuatHandlerTugas(toko *TokoTugas) http.HandlerFunc {
 	panic("belum diimplementasikan")
 }
