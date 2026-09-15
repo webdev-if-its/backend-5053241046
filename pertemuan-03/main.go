@@ -81,7 +81,13 @@ func HapusTugasTercatat(toko *TokoTugas, id int) (err error) {
 
 // TODO (LEVEL 8)
 func AmankanPanggilan(fn func() error) (err error) {
-	panic("belum diimplementasikan")
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("terjadi panic: %v", r)
+		}
+	}()
+	err = fn()
+	return err
 }
 
 // TODO (LEVEL 9)
