@@ -4,42 +4,53 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
-// TODO(Level 1): lihat SOAL.md untuk kontrak lengkap tiap fungsi di bawah.
-// Ganti setiap "panic" dengan implementasi yang benar.
-
-// ErrTugasTidakDitemukan dikembalikan ketika ID tugas yang dicari/dihapus
-// tidak ada di daftar.
 var ErrTugasTidakDitemukan = errors.New("tugas tidak ditemukan")
-
-// ErrInputKosong dikembalikan ketika judul tugas yang diberikan kosong
-// (atau hanya berisi spasi).
 var ErrInputKosong = errors.New("input tidak boleh kosong")
 
-// Task merepresentasikan satu tugas.
 type Task struct {
 	ID      int
 	Judul   string
 	Selesai bool
 }
 
-// TokoTugas menyimpan seluruh tugas di memori (bukan database), penghitung
-// ID berikutnya, serta catatan operasi (dipakai di Level 7).
 type TokoTugas struct {
 	Daftar []Task
 	NextID int
 	Log    []string
 }
 
+//TODO (LEVEL 1)
+
 func TambahTugas(toko *TokoTugas, judul string) (Task, error) {
-	panic("belum diimplementasikan")
+	if strings.TrimSpace(judul) == "" {
+		return Task{}, ErrInputKosong
+	}
+
+	if toko.NextID == 0 {
+		toko.NextID = 1
+	}
+
+	tugasBaru := Task{
+		ID:      toko.NextID,
+		Judul:   judul,
+		Selesai: false,
+	}
+
+	toko.Daftar = append(toko.Daftar, tugasBaru)
+	toko.NextID++
+
+	return tugasBaru, nil
 }
 
+//TODO (LEVEL 2)
 func LihatTugas(toko *TokoTugas, id int) (Task, error) {
 	panic("belum diimplementasikan")
 }
 
+//TODO (LEVEL 3)
 func HapusTugas(toko *TokoTugas, id int) error {
 	panic("belum diimplementasikan")
 }
