@@ -106,15 +106,15 @@ func AmankanHandler(next http.HandlerFunc) http.HandlerFunc {
 // TODO (LEVEL 10 - Part 1)
 func RekapStatus(toko *TokoTugas) map[string]int {
 	status := map[string]int{
-		"belum_selesai": 0,
 		"selesai":       0,
+		"belum selesai": 0,
 	}
 
 	for _, tugas := range toko.Daftar {
 		if tugas.Selesai {
 			status["selesai"]++
 		} else {
-			status["belum_selesai"]++
+			status["belum selesai"]++
 		}
 	}
 	return status
@@ -122,7 +122,18 @@ func RekapStatus(toko *TokoTugas) map[string]int {
 
 // TODO (LEVEL 10 - Part 2)
 func BuatHandlerTugas(toko *TokoTugas) http.HandlerFunc {
-	panic("belum diimplementasikan")
+	return func(w http.ResponseWriter, r *http.Request) {
+		for _, t := range toko.Daftar {
+			statusStr := "belum selesai"
+			if t.Selesai {
+				statusStr = "selesai"
+			}
+			fmt.Fprintf(w, "%d. %s [%s]\n", t.ID, t.Judul, statusStr)
+		}
+
+		rekap := RekapStatus(toko)
+		fmt.Fprintf(w, "\nRingkasan: %d selesai, %d belum selesai\n", rekap["selesai"], rekap["belum selesai"])
+	}
 }
 
 func main() {
