@@ -105,7 +105,19 @@ func AmankanHandler(next http.HandlerFunc) http.HandlerFunc {
 
 // TODO (LEVEL 10 - Part 1)
 func RekapStatus(toko *TokoTugas) map[string]int {
-	panic("belum diimplementasikan")
+	status := map[string]int{
+		"belum_selesai": 0,
+		"selesai":       0,
+	}
+
+	for _, tugas := range toko.Daftar {
+		if tugas.Selesai {
+			status["selesai"]++
+		} else {
+			status["belum_selesai"]++
+		}
+	}
+	return status
 }
 
 // TODO (LEVEL 10 - Part 2)
