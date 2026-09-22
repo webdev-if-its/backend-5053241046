@@ -129,7 +129,6 @@ func (m *MemoryStore) Add(t Task) (Task, error) {
 	return t, nil
 }
 
-// Get mencari tugas menurut ID. (Level 4)
 func (m *MemoryStore) Get(id int) (Task, error) {
 	for _, t := range m.tugas {
 		if t.ID == id {
