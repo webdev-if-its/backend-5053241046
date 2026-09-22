@@ -29,7 +29,7 @@ type Timestamps struct {
 
 // Touch menyetel UpdatedAt ke waktu sekarang. (Level 9)
 func (ts *Timestamps) Touch() {
-	panic("belum diimplementasikan")
+	ts.UpdatedAt = time.Now()
 }
 
 // Task merepresentasikan satu tugas.
@@ -73,7 +73,11 @@ func (t *Task) Rename(judul string) error {
 
 // String membuat Task memenuhi fmt.Stringer. (Level 10)
 func (t Task) String() string {
-	panic("belum diimplementasikan")
+	status := "belum selesai"
+	if t.Selesai {
+		status = "selesai"
+	}
+	return fmt.Sprintf("[%d] %s (%s)", t.ID, t.Judul, status)
 }
 
 // TaskStore adalah kontrak penyimpanan tugas. JANGAN diubah -- yang kalian
@@ -142,37 +146,77 @@ func (m *MemoryStore) Get(id int) (Task, error) {
 
 // List mengembalikan seluruh tugas. (Level 5)
 func (m *MemoryStore) List() []Task {
-	panic("belum diimplementasikan")
+	var hasil = []Task{}
+	for _, t := range m.tugas {
+		hasil = append(hasil, t)
+	}
+	return hasil
 }
+
 
 // Delete menghapus tugas menurut ID. (Level 6)
 func (m *MemoryStore) Delete(id int) error {
-	panic("belum diimplementasikan")
+	for i, t := range m.tugas {
+		if t.ID == id {
+			m.tugas = append(m.tugas[:i], m.tugas[i+1:]...)
+			return nil
+		}
+	}
+	return ErrTugasTidakDitemukan
 }
 
 // Filter mengembalikan elemen xs yang lolos pred. (Level 7)
 func Filter[T any](xs []T, pred func(T) bool) []T {
-	panic("belum diimplementasikan")
+	hasil := make([]T, 0)
+	for _, x := range xs {
+		if pred(x) {
+			hasil = append(hasil, x)
+		}
+	}
+	return hasil
 }
 
 // Map mengubah tiap elemen xs dengan f. (Level 7)
 func Map[T, U any](xs []T, f func(T) U) []U {
-	panic("belum diimplementasikan")
+	hasil := make([]U, 0, len(xs))
+	for _, x := range xs {
+		hasil = append(hasil, f(x))
+	}
+	return hasil
 }
 
 // Contains melaporkan apakah v ada di xs. (Level 8)
 func Contains[T comparable](xs []T, v T) bool {
-	panic("belum diimplementasikan")
+	for _, x := range xs {
+		if x == v {
+			return true
+		}
+	}
+	return false
 }
 
 // Max mengembalikan elemen terbesar di xs. (Level 8)
 func Max[T cmp.Ordered](xs []T) (T, error) {
-	panic("belum diimplementasikan")
+	var zero T
+	if len(xs) == 0 {
+		return zero, ErrDaftarKosong
+	}
+	max := xs[0]
+	for _, x := range xs[1:] {
+		if x > max {
+			max = x
+		}
+	}
+	return max, nil
 }
 
 // Gabung menyambung String() tiap elemen dengan pemisah sep. (Level 10)
 func Gabung[T fmt.Stringer](xs []T, sep string) string {
-	panic("belum diimplementasikan")
+	parts := make([]string, len(xs))
+	for i, x := range xs {
+		parts[i] = x.String()
+	}
+	return strings.Join(parts, sep)
 }
 
 func main() {
