@@ -76,11 +76,11 @@ func (t *Task) Rename(judul string) error {
 
 // String membuat Task memenuhi fmt.Stringer. (Level 10)
 func (t Task) String() string {
-	status := "belum selesai"
+	status := " "
 	if t.Selesai {
-		status = "selesai"
+		status = "x"
 	}
-	return fmt.Sprintf("[%d] %s (%s)", t.ID, t.Judul, status)
+	return fmt.Sprintf("[%s] %d. %s", status, t.ID, t.Judul)
 }
 
 // TaskStore adalah kontrak penyimpanan tugas. JANGAN diubah -- yang kalian
@@ -139,8 +139,6 @@ func (m *MemoryStore) Add(t Task) (Task, error) {
 func (m *MemoryStore) Get(id int) (Task, error) {
 	for _, t := range m.tugas {
 		if t.ID == id {
-			// Task dikembalikan berdasarkan value, sehingga perubahan pada hasil
-			// pemanggilan tidak mengubah data yang tersimpan.
 			return t, nil
 		}
 	}
@@ -214,11 +212,17 @@ func Max[T cmp.Ordered](xs []T) (T, error) {
 
 // Gabung menyambung String() tiap elemen dengan pemisah sep. (Level 10)
 func Gabung[T fmt.Stringer](xs []T, sep string) string {
-	parts := make([]string, len(xs))
-	for i, x := range xs {
-		parts[i] = x.String()
+	if len(xs) == 0 {
+		return ""
 	}
-	return strings.Join(parts, sep)
+	var builder strings.Builder
+	for i, x := range xs {
+		if i > 0 {
+			builder.WriteString(sep)
+		}
+		builder.WriteString(x.String())
+	}
+	return builder.String()
 }
 
 func main() {
