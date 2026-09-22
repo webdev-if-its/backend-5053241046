@@ -46,11 +46,12 @@ func NewTask(judul string) (Task, error) {
 	if judul == "" {
 		return Task{}, ErrInputKosong
 	}
+	now := time.Now()
 	t := Task{
 		Judul: judul,
 		Timestamps: Timestamps{
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
+			CreatedAt: now,
+			UpdatedAt: now,
 		},
 	}
 	return t, nil
@@ -59,6 +60,7 @@ func NewTask(judul string) (Task, error) {
 // MarkDone menandai tugas selesai. (Level 2)
 func (t *Task) MarkDone() {
 	t.Selesai = true
+	t.Touch()
 }
 
 // Rename mengganti judul tugas. (Level 3)
@@ -68,6 +70,7 @@ func (t *Task) Rename(judul string) error {
 		return ErrInputKosong
 	}
 	t.Judul = judul
+	t.Touch()
 	return nil
 }
 
@@ -152,7 +155,6 @@ func (m *MemoryStore) List() []Task {
 	}
 	return hasil
 }
-
 
 // Delete menghapus tugas menurut ID. (Level 6)
 func (m *MemoryStore) Delete(id int) error {
