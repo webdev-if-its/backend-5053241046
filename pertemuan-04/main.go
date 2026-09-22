@@ -88,6 +88,8 @@ type TaskStore interface {
 // MemoryStore menyimpan tugas di memori.
 type MemoryStore struct {
 	// TODO: tambahkan field yang kalian butuhkan (mis. slice tugas dan penghitung ID)
+	tugas []Task
+	nextIDCounter int
 }
 
 // Pastikan *MemoryStore memenuhi TaskStore -- kalau tidak, kode gagal
@@ -96,17 +98,47 @@ var _ TaskStore = (*MemoryStore)(nil)
 
 // NewMemoryStore membuat store kosong.
 func NewMemoryStore() *MemoryStore {
-	panic("belum diimplementasikan")
+	return &MemoryStore{
+		tugas: []Task{},
+		nextIDCounter: 1,
+	}
 }
 
 // Add menyimpan tugas dan memberinya ID baru. (Level 4)
 func (m *MemoryStore) Add(t Task) (Task, error) {
-	panic("belum diimplementasikan")
+	if strings.TrimSpace(t.Judul) == "" {
+		return Task{}, ErrInputKosong
+	}
+
+	for {
+		used := false
+		for _, existing := range m.tugas {
+			if existing.ID == m.nextIDCounter {
+				used = true
+				m.nextIDCounter++
+				break
+			}
+		}
+		if !used {
+			break
+		}
+	}
+	t.ID = m.nextIDCounter
+	m.nextIDCounter++
+	m.tugas = append(m.tugas, t)
+	return t, nil
 }
 
 // Get mencari tugas menurut ID. (Level 4)
 func (m *MemoryStore) Get(id int) (Task, error) {
-	panic("belum diimplementasikan")
+	for _, t := range m.tugas {
+		if t.ID == id {
+			// Task dikembalikan berdasarkan value, sehingga perubahan pada hasil
+			// pemanggilan tidak mengubah data yang tersimpan.
+			return t, nil
+		}
+	}
+	return Task{}, ErrTugasTidakDitemukan
 }
 
 // List mengembalikan seluruh tugas. (Level 5)
